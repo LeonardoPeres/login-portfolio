@@ -1,0 +1,45 @@
+<?php
+    //carrega as configurações de acesso do servidor sql
+    require('/home/leoperes/webp/login/dbconfig.php');
+    //faz a conexao com sql
+    $vConexao = mysqli_connect($vServidor, $vHost, $vhSenha ,$vDatabase);
+    
+    //tratamento de erro da execução acima
+    if(!$vConexao){
+        echo('Falha ao conectar erro nº: ('.mysqli_errno($vConexao).')</br>'.mysqli_error($vConexao));
+        die();
+    };
+
+    //carrega os dados do formulario html enviados via metodo GET
+    $vUsuario = $_GET["vUsuario"];
+    $vSenha = $_GET["vSenha"];
+    
+    //$vUsuario = $_POST['vUsuario'];
+    //$vSenha = $_POST['vSenha'];
+
+    //construção da pesquisa de validação da base de dados
+    $vSql = 'SELECT usuario, senha FROM usuarios
+             WHERE (usuario="'.$vUsuario.'") AND (senha="'.$vSenha.'");';
+
+    //22 - faz a entrada da query acima | 23 - tratamento de erro da linha 22
+    $vExecucao = mysqli_query($vConexao, $vSql);
+    if(!$vExecucao){
+        echo('Erro ao logar!<br>'.mysqli_error($vExecucao).'<br>'.mysqli_error($vExecucao));
+        die();
+    };
+
+    //29 - faz a contagem de linhas encontradas com o acesso (login validado com 1 linha) | 30 - tratamento de erro da linha 29
+    $vCont = mysqli_num_rows($vExecucao);
+    if($vCont == 0){
+        echo('Erro ao logar!<br> Usuário ou senha invalidos!');
+        echo('<a href="index.html" value="Tentar novamente">');
+        setcookie('login', '0', $vCookieLogin);
+        die();
+    };
+
+    //define cookie login como validado concedendo acesso ao sistema
+    setcookie('login', '1', $vCookieLogin);
+    //termina a conexao ao banco de dados
+    mysqli_close($vConexao);
+    header("Location: pagina_inicial.php");
+?>

@@ -1,0 +1,16 @@
+<?/*
+        if (isset($_COOKIE['login']) and $_COOKIE['login'] == 0)  
+        {
+    ?>
+
+        <?   };
+    */?>
+    <?/*
+        if (isset($_COOKIE['login']) and $_COOKIE['login'] == 0)  
+                {
+    ?>
+            <div style="background-color: #c04848; color: #fff; text-align: center; padding: 7px; border-radius: 5px">
+                <h6>Bem-Vindo! Login Realizado com Sucesso</h6>
+            </div>
+   <?   };
+   */?>
